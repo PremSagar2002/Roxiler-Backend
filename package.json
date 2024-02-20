@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "This project aims to implement a backend system to manage and analyze product transactions. The backend is designed to interact with a third-party API to fetch product transaction data, and it provides various APIs for listing transactions, generating statistics, and creating charts based on the fetched data.",
   "main": "index.js",
-  "engines": {
-    "node": "14.X"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
