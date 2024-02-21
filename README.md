@@ -56,3 +56,23 @@ To interact with the APIs, simply make HTTP requests to the designated endpoints
 Feel free to explore and analyze product transactions using the provided APIs. For any inquiries or assistance, please consult the documentation or reach out to the project maintainers.
 
 Enjoy the seamless management and analysis of product transactions with our system!
+
+## Database Setup
+
+Ensure SQLite is installed on your system.
+Create a SQLite database file named roxiler.db.
+
+## Usage
+
+Start the backend server:
+
+node index.js
+
+## Access Your APIs:
+
+Once the server is running, you can access your APIs using the appropriate endpoints. For example:
+
+Transactions API: http://localhost:3000/transactions
+Statistics API: http://localhost:3000/statistics
+Bar Chart API: http://localhost:3000/bar-chart
+Pie Chart API: http://localhost:3000/pie-chart

@@ -1,6 +1,6 @@
 let express = require("express");
-const cors = require('cors');
-const axios = require("axios"); 
+const cors = require("cors");
+const axios = require("axios");
 let sqlite = require("sqlite");
 let sqlite3 = require("sqlite3");
 
@@ -10,7 +10,6 @@ module.exports = app;
 app.use(cors());
 
 app.use(express.json());
-
 
 let { open } = sqlite;
 let path = require("path");
@@ -29,7 +28,6 @@ let intializeDBAndServer = async () => {
 intializeDBAndServer();
 
 //-----------------adding seed data to database-------------------------
-
 
 const fetchAndInsert = async () => {
   const response = await axios.get(
@@ -63,7 +61,6 @@ const fetchAndInsert = async () => {
 
 fetchAndInsert();
 
-
 //-----------------adding seed data to database-------------------------
 
 //   Create an API to list the all transactions
@@ -81,44 +78,46 @@ fetchAndInsert();
 // API to list all transactions with search and pagination
 
 //http://localhost:3000/transactions?page=1$perPage=10&search=''
-app.get('/', async (req, res) => {
-    try {
-        res.send('Welcome, this is Roxiler company assignment backend domain.Please access any path to get the data');
-    } catch (e) {
-        console.error(e.message);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+app.get("/", async (req, res) => {
+  try {
+    res.send(
+      "Welcome, this is Roxiler company assignment backend domain.Please access any path to get the data"
+    );
+  } catch (e) {
+    console.error(e.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
-app.get('/transactions', async (req, res) => {
-    try {
-        const page = parseInt(req.query.page) || 1;
-        const perPage = parseInt(req.query.perPage) || 10;
-        const search = req.query.search ? req.query.search.toLowerCase() : '';
-        const selectedMonth = (req.query.month || 'march').toLowerCase();
+app.get("/transactions", async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const perPage = parseInt(req.query.perPage) || 10;
+    const search = req.query.search ? req.query.search.toLowerCase() : "";
+    const selectedMonth = (req.query.month || "march").toLowerCase();
 
-        const monthMap = {
-            'january': '01',
-            'february': '02',
-            'march': '03',
-            'april': '04',
-            'may': '05',
-            'june': '06',
-            'july': '07',
-            'august': '08',
-            'september': '09',
-            'october': '10',
-            'november': '11',
-            'december': '12',
-        };
+    const monthMap = {
+      january: "01",
+      february: "02",
+      march: "03",
+      april: "04",
+      may: "05",
+      june: "06",
+      july: "07",
+      august: "08",
+      september: "09",
+      october: "10",
+      november: "11",
+      december: "12",
+    };
 
-        const numericMonth = monthMap[selectedMonth];
+    const numericMonth = monthMap[selectedMonth];
 
-        if (!numericMonth) {
-            return res.status(400).json({ error: 'Invalid month' });
-        }
+    if (!numericMonth) {
+      return res.status(400).json({ error: "Invalid month" });
+    }
 
-        const sqlQuery = `
+    const sqlQuery = `
             SELECT *
             FROM products
             WHERE
@@ -131,22 +130,27 @@ app.get('/transactions', async (req, res) => {
             LIMIT ? OFFSET ?;
         `;
 
-        const params = [numericMonth, search, search, search, perPage, (page - 1) * perPage];
+    const params = [
+      numericMonth,
+      search,
+      search,
+      search,
+      perPage,
+      (page - 1) * perPage,
+    ];
 
-        const rows = await db.all(sqlQuery, params);
+    const rows = await db.all(sqlQuery, params);
 
-        res.json({
-            page,
-            perPage,
-            transactions: rows
-        });
-
-    } catch (error) {
-        console.error('Error fetching transactions:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+    res.json({
+      page,
+      perPage,
+      transactions: rows,
+    });
+  } catch (error) {
+    console.error("Error fetching transactions:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
-
 
 // app.get('/transactions', async (req, res) => {
 //     try {
@@ -154,8 +158,6 @@ app.get('/transactions', async (req, res) => {
 //         const perPage = parseInt(req.query.perPage) || 10;
 //         const search = req.query.search ? req.query.search.toLowerCase() : '';
 //         const selectedMonth = req.query.month.toLowerCase() || 'march';
-        
-
 
 //         const monthMap = {
 //             'january': '01',
@@ -210,40 +212,40 @@ app.get('/transactions', async (req, res) => {
 // - Total number of not sold items of selected month
 
 //http://localhost:3000/statistics?month=january
-app.get('/statistics', async (req, res) => {
-    try {
-        console.log('Request received for /statistics');
-        const selectedMonth = req.query.month || 'march';
-        console.log('Selected Month:', selectedMonth);
+app.get("/statistics", async (req, res) => {
+  try {
+    console.log("Request received for /statistics");
+    const selectedMonth = req.query.month || "march";
+    console.log("Selected Month:", selectedMonth);
 
-        if (!selectedMonth) {
-            return res.status(400).json({ error: 'Month parameter is required.' });
-        }
+    if (!selectedMonth) {
+      return res.status(400).json({ error: "Month parameter is required." });
+    }
 
-        // Convert month names to numbers
-        const monthMap = {
-            'january': '01',
-            'february': '02',
-            'march': '03',
-            'april': '04',
-            'may': '05',
-            'june': '06',
-            'july': '07',
-            'august': '08',
-            'september': '09',
-            'october': '10',
-            'november': '11',
-            'december': '12',
-        };
+    // Convert month names to numbers
+    const monthMap = {
+      january: "01",
+      february: "02",
+      march: "03",
+      april: "04",
+      may: "05",
+      june: "06",
+      july: "07",
+      august: "08",
+      september: "09",
+      october: "10",
+      november: "11",
+      december: "12",
+    };
 
-        const numericMonth = monthMap[selectedMonth.toLowerCase()];
+    const numericMonth = monthMap[selectedMonth.toLowerCase()];
 
-        if (!numericMonth) {
-            return res.status(400).json({ error: 'Invalid month name.' });
-        }
+    if (!numericMonth) {
+      return res.status(400).json({ error: "Invalid month name." });
+    }
 
-        // SQL query to get statistics for the given month
-        const sqlQuery = `
+    // SQL query to get statistics for the given month
+    const sqlQuery = `
         SELECT
             SUM(CASE WHEN sold = 1 THEN price ELSE 0 END) as totalSaleAmount,
             COUNT(CASE WHEN sold = 1 THEN 1 END) as totalSoldItems,
@@ -252,25 +254,26 @@ app.get('/statistics', async (req, res) => {
         WHERE strftime('%m', dateOfSale) = ?;
         `;
 
-        // Execute the SQL query
-        const statistics = await db.get(sqlQuery, [numericMonth]);
+    // Execute the SQL query
+    const statistics = await db.get(sqlQuery, [numericMonth]);
 
-        if (!statistics) {
-            return res.status(404).json({ error: 'No data found for the selected month.' });
-        }
-
-        res.json({
-            selectedMonth,
-            totalSaleAmount: Math.floor(statistics.totalSaleAmount) || 0,
-            totalSoldItems: statistics.totalSoldItems || 0,
-            totalNotSoldItems: statistics.totalNotSoldItems || 0
-        });
-    } catch (e) {
-        console.error(e.message);
-        res.status(500).json({ error: 'Internal Server Error' });
+    if (!statistics) {
+      return res
+        .status(404)
+        .json({ error: "No data found for the selected month." });
     }
-});
 
+    res.json({
+      selectedMonth,
+      totalSaleAmount: Math.floor(statistics.totalSaleAmount) || 0,
+      totalSoldItems: statistics.totalSoldItems || 0,
+      totalNotSoldItems: statistics.totalNotSoldItems || 0,
+    });
+  } catch (e) {
+    console.error(e.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 // GET
 // Create an API for bar chart ( the response should contain price range and the number
@@ -287,35 +290,33 @@ app.get('/statistics', async (req, res) => {
 // - 901-above
 
 //http://localhost:3000/bar-chart?month=january
-app.get('/bar-chart', async (req, res) => {
-    try {
-        const selectedMonth = req.query.month || 'march';
+app.get("/bar-chart", async (req, res) => {
+  try {
+    const selectedMonth = req.query.month || "march";
 
-            // Convert month names to numers
-            const monthMap = {
-                'january': '01',
-                'february': '02',
-                'march': '03',
-                'april': '04',
-                'may': '05',
-                'june': '06',
-                'july': '07',
-                'august': '08',
-                'september': '09',
-                'october': '10',
-                'november': '11',
-                'december': '12',
-            };
-    
-            
+    // Convert month names to numers
+    const monthMap = {
+      january: "01",
+      february: "02",
+      march: "03",
+      april: "04",
+      may: "05",
+      june: "06",
+      july: "07",
+      august: "08",
+      september: "09",
+      october: "10",
+      november: "11",
+      december: "12",
+    };
 
-        if (!selectedMonth) {
-            return res.status(400).json({ error: 'Month parameter is required.' });
-        }
+    if (!selectedMonth) {
+      return res.status(400).json({ error: "Month parameter is required." });
+    }
 
-        const numericMonth = monthMap[selectedMonth.toLowerCase()];
-        // Construct SQL query to get bar chart data for the selected month
-        const sqlQuery = `
+    const numericMonth = monthMap[selectedMonth.toLowerCase()];
+    // Construct SQL query to get bar chart data for the selected month
+    const sqlQuery = `
                 SELECT
                 priceRanges.priceRange,
                 COUNT(products.price) as itemCount
@@ -335,14 +336,14 @@ app.get('/bar-chart', async (req, res) => {
             GROUP BY priceRanges.priceRange;
         `;
 
-        // Execute the SQL query
-        const barChartData = await db.all(sqlQuery, [numericMonth]);
+    // Execute the SQL query
+    const barChartData = await db.all(sqlQuery, [numericMonth]);
 
-        res.json(barChartData);
-    } catch (e) {
-        console.error(e.message);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+    res.json(barChartData);
+  } catch (e) {
+    console.error(e.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // GET
@@ -354,34 +355,34 @@ app.get('/bar-chart', async (req, res) => {
 // - Z category : 3 (items)
 
 //http://localhost:3000/pie-chart?month=january
-app.get('/pie-chart', async (req, res) => {
-    try {
-        const selectedMonth = req.query.month || 'march';
+app.get("/pie-chart", async (req, res) => {
+  try {
+    const selectedMonth = req.query.month || "march";
 
-        if (!selectedMonth) {
-            return res.status(400).json({ error: 'Month parameter is required.' });
-        }
+    if (!selectedMonth) {
+      return res.status(400).json({ error: "Month parameter is required." });
+    }
 
-        // Convert month names to numbers
-        const monthMap = {
-            'january': '01',
-            'february': '02',
-            'march': '03',
-            'april': '04',
-            'may': '05',
-            'june': '06',
-            'july': '07',
-            'august': '08',
-            'september': '09',
-            'october': '10',
-            'november': '11',
-            'december': '12',
-        };
+    // Convert month names to numbers
+    const monthMap = {
+      january: "01",
+      february: "02",
+      march: "03",
+      april: "04",
+      may: "05",
+      june: "06",
+      july: "07",
+      august: "08",
+      september: "09",
+      october: "10",
+      november: "11",
+      december: "12",
+    };
 
-        const numericMonth = monthMap[selectedMonth.toLowerCase()];
+    const numericMonth = monthMap[selectedMonth.toLowerCase()];
 
-        // Construct SQL query to get pie chart data for the selected month
-        const sqlQuery = `
+    // Construct SQL query to get pie chart data for the selected month
+    const sqlQuery = `
           SELECT DISTINCT
             category, 
             COUNT(*) as itemCount
@@ -390,71 +391,73 @@ app.get('/pie-chart', async (req, res) => {
           GROUP BY category;
         `;
 
-        // Execute the SQL query
-        const pieChartData = await db.all(sqlQuery, [numericMonth]);
+    // Execute the SQL query
+    const pieChartData = await db.all(sqlQuery, [numericMonth]);
 
-        res.json(pieChartData);
-    } catch (e) {
-        console.error(e.message);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+    res.json(pieChartData);
+  } catch (e) {
+    console.error(e.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
+app.get("/combined-response", async (req, res) => {
+  try {
+    const selectedMonth = req.query.month || "march";
+    const { search, page, perPage } = req.query;
 
-
-app.get('/combined-response', async (req, res) => {
-    try {
-        const selectedMonth = req.query.month || 'march';
-        const {search, page, perPage} = req.query
-
-        if (!selectedMonth) {
-            return res.status(400).json({ error: 'Month parameter is required.' });
-        }
-
-
-        const monthMap = {
-            'january': '01',
-            'february': '02',
-            'march': '03',
-            'april': '04',
-            'may': '05',
-            'june': '06',
-            'july': '07',
-            'august': '08',
-            'september': '09',
-            'october': '10',
-            'november': '11',
-            'december': '12',
-        };
-
-        const numericMonth = monthMap[selectedMonth.toLowerCase()];
-
-        // Fetch data from the four APIs
-        const transactionsData = await fetchTransactions(numericMonth,search, page || 1, perPage || 10);
-        const statisticsData = await fetchStatistics(numericMonth);
-        const barChartData = await fetchBarChart(numericMonth);
-        const pieChartData = await fetchPieChart(numericMonth);
-
-        // Combine the responses into a single JSON object
-        const combinedResponse = {
-            transactions: transactionsData,
-            statistics: statisticsData,
-            barChart: barChartData,
-            pieChart: pieChartData,
-        };
-
-        res.json(combinedResponse);
-    } catch (e) {
-        console.error(e.message);
-        res.status(500).json({ error: 'Internal Server Error' });
+    if (!selectedMonth) {
+      return res.status(400).json({ error: "Month parameter is required." });
     }
+
+    const monthMap = {
+      january: "01",
+      february: "02",
+      march: "03",
+      april: "04",
+      may: "05",
+      june: "06",
+      july: "07",
+      august: "08",
+      september: "09",
+      october: "10",
+      november: "11",
+      december: "12",
+    };
+
+    const numericMonth = monthMap[selectedMonth.toLowerCase()];
+
+    // Fetch data from the four APIs
+    const transactionsData = await fetchTransactions(
+      numericMonth,
+      search,
+      page || 1,
+      perPage || 10
+    );
+    const statisticsData = await fetchStatistics(numericMonth);
+    const barChartData = await fetchBarChart(numericMonth);
+    const pieChartData = await fetchPieChart(numericMonth);
+
+    // Combine the responses into a single JSON object
+    const combinedResponse = {
+      transactions: transactionsData,
+      statistics: statisticsData,
+      barChart: barChartData,
+      pieChart: pieChartData,
+    };
+
+    res.json(combinedResponse);
+  } catch (e) {
+    console.error(e.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // Function to fetch transactions data
 // Function to fetch transactions data with search, pagination, and month filter
 async function fetchTransactions(numericMonth, search, page, perPage) {
-    // SQL query with search, month filter, and pagination
-    const sqlQuery = `
+  // SQL query with search, month filter, and pagination
+  const sqlQuery = `
         SELECT *
         FROM products
         WHERE
@@ -467,13 +470,13 @@ async function fetchTransactions(numericMonth, search, page, perPage) {
         LIMIT ${perPage} OFFSET ${(page - 1) * perPage};
     `;
 
-    const transactionsData = await db.all(sqlQuery, [numericMonth]);
-    return transactionsData;
+  const transactionsData = await db.all(sqlQuery, [numericMonth]);
+  return transactionsData;
 }
 
 // Function to fetch statistics data
 async function fetchStatistics(numericMonth) {
-    const sqlQuery = `
+  const sqlQuery = `
       SELECT
         CAST(SUM(CASE WHEN sold = 1 THEN price ELSE 0 END) as INT) as totalSaleAmount,
         COUNT(CASE WHEN sold = 1 THEN 1 END) as totalSoldItems,
@@ -482,13 +485,13 @@ async function fetchStatistics(numericMonth) {
       WHERE strftime('%m', dateOfSale) = ?;
     `;
 
-    const statisticsData = await db.get(sqlQuery, [numericMonth]);
-    return statisticsData;
+  const statisticsData = await db.get(sqlQuery, [numericMonth]);
+  return statisticsData;
 }
 
 // Function to fetch bar chart data
 async function fetchBarChart(numericMonth) {
-    const sqlQuery = `
+  const sqlQuery = `
     SELECT
       CASE
         WHEN price BETWEEN 0 AND 100 THEN '0 - 100'
@@ -514,7 +517,7 @@ async function fetchBarChart(numericMonth) {
 
 // Function to fetch pie chart data
 async function fetchPieChart(numericMonth) {
-    const sqlQuery = `
+  const sqlQuery = `
       SELECT DISTINCT
         category,
         COUNT(*) as itemCount
@@ -523,6 +526,6 @@ async function fetchPieChart(numericMonth) {
       GROUP BY category;
     `;
 
-    const pieChartData = await db.all(sqlQuery, [numericMonth]);
-    return pieChartData;
+  const pieChartData = await db.all(sqlQuery, [numericMonth]);
+  return pieChartData;
 }
