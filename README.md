@@ -57,7 +57,8 @@ Clone the repository
 install node and check version using node -v
 Type the following commands in terminal
 
-install express cors sqlite3 
+npm install express cors sqlite3 
+
 node index.js
 
 Now the backsend project is running then go for front end project
