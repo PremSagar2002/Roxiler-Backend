@@ -1,10 +1,6 @@
 # Roxiler Backend
 
-Welcome to the Roxiler Backend project! This backend system is created to efficiently manage and analyze product transactions. It seamlessly integrates with a third-party API to fetch product transaction data and offers a variety of APIs for handling transactions, generating statistics, and creating insightful charts based on the acquired data.
-
-## Deployment
-
-The project is currently deployed and accessible [here](#). You can leverage the following APIs to interact with the system.
+Welcome to the Roxiler Backend project! This backend system is created to efficiently manage and analyze product transactions. It seamlessly integrates with a third-party API to fetch product transaction data and offers a variety of APIs for handling transactions, generating statistics, and creating insightful charts based on the acquired data
 
 ## API Endpoints
 
@@ -53,20 +49,18 @@ The project is currently deployed and accessible [here](#). You can leverage the
 
 To interact with the APIs, simply make HTTP requests to the designated endpoints with the necessary parameters. Ensure that the `month` parameter is included in all relevant requests.
 
-Feel free to explore and analyze product transactions using the provided APIs. For any inquiries or assistance, please consult the documentation or reach out to the project maintainers.
 
-Enjoy the seamless management and analysis of product transactions with our system!
 
-## Database Setup
 
-Ensure SQLite is installed on your system.
-Create a SQLite database file named roxiler.db.
+## Deployment
+Clone the repository
+install node and check version using node -v
+Type the following commands in terminal
 
-## Usage
-
-Start the backend server:
-
+install express cors sqlite3 
 node index.js
+
+Now the backsend project is running then go for front end project
 
 ## Access Your APIs:
 
